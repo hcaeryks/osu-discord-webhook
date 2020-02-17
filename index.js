@@ -48,6 +48,9 @@ function sendEmbed(bm_id) {
             }
             diff_formatted += nameMap["version"] + "`\n";
         });
+
+        // TO FIX vvvvvvvvvvvvvvvvv
+
         embed = new MessageBuilder()
         .setTitle(response["data"][1]["artist"] + ' - ' + response["data"][1]["title"])
         .setAuthor('New approved beatmap by ' + response["data"][1]["creator"], 'http://s.ppy.sh/a/' + response["data"][1]["creator_id"], 'http://osu.ppy.sh/users/' + response["data"][1]["creator_id"])
@@ -93,4 +96,3 @@ async function main() {
 }
 
 main();
-
