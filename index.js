@@ -7,7 +7,7 @@ const moment = require('moment');
 const config = require('./config.json');
 const hook   = new Webhook(config.hook);
 
-let seenMaps = [], grouped = [], embed, sec_num, minutes, seconds, diff_formatted;
+let seenMaps = [], grouped = [], embed, sec_num, minutes, seconds, diff_formatted, curr_date;
 
 function sleep(millis) {
     return new Promise(resolve => setTimeout(resolve, millis));
@@ -67,20 +67,27 @@ function sendEmbed(bm_id) {
 
 async function main() {
     while(true) {
-        axios.get('https://osu.ppy.sh/api/get_beatmaps?k=' + config.key + '&a=0&limit=100&since=2020-02-17 00:00:00')
+        axios.get('http://worldclockapi.com/api/json/utc/now')
         .then(response => {
-            grouped = Object.entries(_.groupBy(response.data, 'beatmapset_id'));
-            grouped.forEach(set => {
-                if(!seenMaps.includes(set[0])) {
-                    seenMaps.push(set[0]);
-                    sendEmbed(set[0]);
-                }
+            curr_date = response["data"]["currentDateTime"].substring(0, 10);
+            axios.get('https://osu.ppy.sh/api/get_beatmaps?k=' + config.key + '&a=0&limit=100&since=' + curr_date + ' 00:00:00')
+            .then(response => {
+                grouped = Object.entries(_.groupBy(response.data, 'beatmapset_id'));
+                grouped.forEach(set => {
+                    if(!seenMaps.includes(set[0])) {
+                        seenMaps.push(set[0]);
+                        sendEmbed(set[0]);
+                    }
+                });
+            })
+            .catch(error => {
+                console.log(error);
             });
         })
         .catch(error => {
             console.log(error);
         });
-    
+
         await sleep(30000);
     }
 }
