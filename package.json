@@ -1,0 +1,35 @@
+{
+  "name": "osu-discord-webhook",
+  "version": "1.0.0",
+  "description": "osu! webhook for discord that shows recent beatmaps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Skyreachl/osu-discord-webhook.git"
+  },
+  "keywords": [
+    "osu",
+    "discord",
+    "webhook"
+  ],
+  "author": "Skyreach",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Skyreachl/osu-discord-webhook/issues"
+  },
+  "homepage": "https://github.com/Skyreachl/osu-discord-webhook#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "discord-webhook-node": "^1.0.4",
+    "moment": "^2.24.0",
+    "underscore": "^1.9.2"
+  }
+}
