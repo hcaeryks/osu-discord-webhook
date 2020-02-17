@@ -5,6 +5,6 @@ replace the values in config.json for it to work <br>
 if you have a question feel free to message me on discord Skyreach#0092
 <br><br>
 preview:<br>
-<img src="https://i.imgur.com/TeeK3YQ.png">
+<img src="https://i.imgur.com/iJgd3bW.png">
 
 # THIS IS STILL A WIP
