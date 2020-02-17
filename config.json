@@ -1,4 +1,5 @@
 {
     "key": "YOUR_API_KEY",
-    "hook": "YOUR_DISCORD_WEBHOOK_URL"
+    "id": "YOUR_HOOK_ID",
+    "token": "YOUR_HOOK_TOKEN"
 }

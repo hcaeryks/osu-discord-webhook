@@ -1,13 +1,13 @@
 "use strict";
 
 const axios  = require('axios');
-const { Webhook, MessageBuilder } = require('discord-webhook-node');
+const Discord = require('discord.js');
 const _      = require('underscore');
 const moment = require('moment');
 const config = require('./config.json');
-const hook   = new Webhook(config.hook);
+const hook = new Discord.WebhookClient(config.id, config.token);
 
-let seenMaps = [], grouped = [], embed, sec_num, minutes, seconds, diff_formatted, curr_date;
+let seenMaps = [], grouped = [], embed, sec_num, minutes, seconds, diff_formatted, curr_date, approval_type;
 
 function sleep(millis) {
     return new Promise(resolve => setTimeout(resolve, millis));
@@ -49,17 +49,34 @@ function sendEmbed(bm_id) {
             diff_formatted += nameMap["version"] + "`\n";
         });
 
-        // TO FIX vvvvvvvvvvvvvvvvv
+        switch(parseInt(response["data"][1]["approved"])) {
+            case 1:
+                approval_type = " ranked";
+                break;
+            case 2:
+                approval_type = " approved";
+                break;
+            case 3:
+                approval_type = " qualified";
+                break;
+            case 4:
+                approval_type = " loved";
+                break;
+            default:
+                approval_type = "";
+                break;
+        }
 
-        embed = new MessageBuilder()
+        embed = new Discord.RichEmbed()
         .setTitle(response["data"][1]["artist"] + ' - ' + response["data"][1]["title"])
-        .setAuthor('New approved beatmap by ' + response["data"][1]["creator"], 'http://s.ppy.sh/a/' + response["data"][1]["creator_id"], 'http://osu.ppy.sh/users/' + response["data"][1]["creator_id"])
+        .setAuthor('New' + approval_type + ' beatmap by ' + response["data"][1]["creator"], 'http://s.ppy.sh/a/' + response["data"][1]["creator_id"], 'http://osu.ppy.sh/users/' + response["data"][1]["creator_id"])
         .setURL('http://osu.ppy.sh/beatmapsets/' + bm_id)
-        .setDescription('`Song length: ' + response["data"][1]["total_length"].toMMSS() + '`' + /*'`[Send to osu direct](osu://s/' + bm_id + ')`' +*/ ' \n\n' + diff_formatted)
-        .setColor(15038374)
+        .setDescription('`Song length: ' + response["data"][1]["total_length"].toMMSS() + '`\n[Open discussion](https://osu.ppy.sh/beatmapsets/' + bm_id + '/discussion)' + ' \n\n' + diff_formatted)
+        .setColor([229,119,166])
         .setThumbnail('https://b.ppy.sh/thumb/' + bm_id + 'l.jpg')
         .setImage('https://assets.ppy.sh/beatmaps/' + bm_id + '/covers/cover.jpg')
         .setFooter('Approved at ' + moment(response["data"][1]["approved_date"]).format('MMMM Do YYYY, h:mm:ss a'), 'https://i.imgur.com/h87iocW.png');
+
 
         hook.send(embed);
     })
