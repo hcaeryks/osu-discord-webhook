@@ -1,14 +1,14 @@
 "use strict";
 
-const axios  = require('axios');
-const Discord = require('discord.js');
-const _      = require('underscore');
-const moment = require('moment');
+const axios    = require('axios');
+const Discord  = require('discord.js');
+const _        = require('underscore');
+const moment   = require('moment');
 const exitHook = require('exit-hook');
-const config = require('./config.json');
-const hook = new Discord.WebhookClient(config.id, config.token);
+const config   = require('./config.json');
+const hook     = new Discord.WebhookClient(config.id, config.token);
 
-let seenMaps = [], grouped = [], embed, sec_num, minutes, seconds, diff_formatted, curr_date, approval_type, first_init = 1, thumbnail;
+let seenMaps   = [], grouped = [], embed, sec_num, minutes, seconds, diff_formatted, curr_date, approval_type, first_init = 1, thumbnail;
 
 function sleep(millis) {
     return new Promise(resolve => setTimeout(resolve, millis));
