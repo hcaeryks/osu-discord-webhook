@@ -30,7 +30,7 @@
     "axios": "^0.19.2",
     "discord.js": "^11.5.1",
     "exit-hook": "^2.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "underscore": "^1.9.2"
   }
 }
